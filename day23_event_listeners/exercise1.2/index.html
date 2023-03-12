@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title></title>
+  </head>
+
+  <body onkeypress="detectKey()">
+    <div class="note">Press any keyboard key</div>
+    <div class="key-code"></div>
+
+    <script>
+      const detectKey = () => {
+        document.querySelector('.note').textContent = `You pressed ${event.code}`
+        document.querySelector('.key-code').textContent = event.keyCode
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,81 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>JavaScript for Everyone:DOM</title>
+  </head>
+  <body>
+    <div class="wrapper">
+        <h1>Asabeneh Yetayeh challenges in 2020</h1>
+        <h2>30DaysOfJavaScript Challenge</h2>
+        <ul>
+            <li>30DaysOfPython Challenge Done</li>
+            <li>30DaysOfJavaScript Challenge Ongoing</li>
+            <li>30DaysOfReact Challenge Coming</li>
+            <li>30DaysOfFullStack Challenge Coming</li>
+            <li>30DaysOfDataAnalysis Challenge Coming</li>
+            <li>30DaysOfReactNative Challenge Coming</li>
+            <li>30DaysOfMachineLearning Challenge Coming</li>
+        </ul>
+    </div>
+
+    <script type="text/javascript">
+      // The year color is changing every 1 second
+      function genHexaColor () {
+        const charSet = '0123456789abcdef'
+        let color = '#'
+
+        for (let i = 0; i < 6; i++) {
+          color += charSet[Math.floor(Math.random() * 16)]
+        }
+
+        return color
+      }
+
+      const header = document.querySelector('h1')
+      const splittedTitle = header.textContent.split(' ')
+      const wrappedYear = `<span>${splittedTitle.splice(-1)[0]}</span>`
+      splittedTitle[splittedTitle.length - 1] = wrappedYear
+      header.innerHTML = splittedTitle.join(' ')
+
+      setInterval(() => {
+        document.querySelector('h1').querySelector('span').style.color = genHexaColor()
+      }, 1_000)
+
+
+      // The date and time background color is changing every on seconds
+      let timeElement = document.createElement('h3')
+      timeElement.innerHTML = new Date().toLocaleString()
+      timeElement.style.background = genHexaColor()
+      timeElement.style.padding = '5px'
+
+      const ulList = document.querySelector('ul')
+      const wrapperDiv = document.querySelector('.wrapper')
+      wrapperDiv.insertBefore(timeElement, ulList)
+
+      setInterval(() => {
+        timeElement.innerHTML = new Date().toLocaleString()
+        timeElement.style.background = genHexaColor()
+      }, 1000)
+
+
+      // Completed challenge has background green
+      // Ongoing challenge has background yellow
+      // Coming challenges have background red
+      for (let item of ulList.children) {
+        const status = item.textContent.split(' ').splice(-1)[0]
+
+        switch(status.toLowerCase()) {
+          case 'done':
+            item.style.background = 'green'
+            break
+          case 'ongoing':
+            item.style.background = 'yellow'
+            break
+          case 'coming':
+            item.style.background = 'red'
+        }
+      }
+    </script>
+  </body>
+</html>

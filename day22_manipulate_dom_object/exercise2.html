@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title></title>
+  <link rel="stylesheet" href="">
+
+  <style>
+    .list {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .item {
+      border: 1px solid gray;
+      width: 130px;
+      height: 130px;
+      text-align: center;
+      margin: 3px;
+    }
+  </style>
+
+  <script src='data/countries.js'></script>
+</head>
+<body>
+  <h1>World Countries List</h1>
+  <h3>Total number of countries: <span></span></h3>
+  <div class="list"></div>
+
+  <script type="text/javascript">
+    const totalCountries = countries.length
+    document.querySelector('h3').querySelector('span').textContent = totalCountries
+
+    const listWrapper = document.querySelector('.list')
+    for (let country of countries) {
+      const countryCell = document.createElement('div')
+      countryCell.textContent = country
+      countryCell.className = 'item'
+
+      listWrapper.appendChild(countryCell)
+    }
+  </script>
+</body>
+</html>

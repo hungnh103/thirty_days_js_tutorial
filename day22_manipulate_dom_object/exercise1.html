@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title></title>
+  <link rel="stylesheet" href="">
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      font-family: Arial;
+    }
+
+    .wrapper {
+      width: 60%;
+    }
+
+    .board {
+      display: flex;
+      flex-wrap: wrap;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <h1>Number Generator</h1>
+    <div class="board"></div>
+  </div>
+
+  <script>
+    function isPrime(n) {
+      if (n === 0 || n === 1) return false
+
+      let count = 0
+      const endPoint = Math.floor(Math.sqrt(n))
+      for(let i = 1; i <= endPoint; i++) {
+        if (n % i === 0) count++
+      }
+
+      return (count > 1 ? false : true)
+    }
+
+    const board = document.querySelector('.board')
+
+    for(let i = 0; i <= 101; i++) {
+      const numberElement = document.createElement('div')
+      numberElement.textContent = i
+      numberElement.style.color = 'white'
+      numberElement.style.width = '120px'
+      numberElement.style.height = '50px'
+      numberElement.style.margin = '3px'
+      numberElement.style.fontWeight = 'bold'
+      numberElement.style.textAlign = 'center'
+      numberElement.style.lineHeight = '50px'
+
+      if (isPrime(i)) {
+        // Prime numbers background is red
+        numberElement.style.background = '#f05a51'
+      } else if (i % 2 === 0) {
+        // Even numbers background is green
+        numberElement.style.background = '#65c665'
+      } else {
+        // Odd numbers background is yellow
+        numberElement.style.background = '#fddb3a'
+      }
+
+      board.appendChild(numberElement)
+    }
+  </script>
+</body>
+</html>

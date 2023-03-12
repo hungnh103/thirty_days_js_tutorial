@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>30DaysOfJavaScript:22 Day: Challenge Info</title>
+  </head>
+
+  <body>
+    <div class="wrapper"></div>
+
+    <script src="./data/challenges_info.js" charset="utf-8"></script>
+    <script type="text/javascript" charset="utf-8">
+      const fontAwesomeCdnUrl = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'
+      const fontAwesomeCdnLink = document.createElement('link')
+      fontAwesomeCdnLink.setAttribute('rel', 'stylesheet')
+      fontAwesomeCdnLink.setAttribute('href', fontAwesomeCdnUrl)
+      document.head.appendChild(fontAwesomeCdnLink)
+
+      const generateColor = () => {
+        const charSet = '0123456789abcdef'
+        let color = '#'
+
+        for (let i = 0; i < 6; i++) {
+          color += charSet[Math.floor(Math.random() * 16)]
+        }
+
+        return color
+      }
+
+      const getCurrentTime = () => {
+        return new Date().toLocaleString(
+          'en-us',
+          {
+            month: 'short',
+            day: 'numeric',
+            year: 'numeric',
+            hour: 'numeric',
+            minute: 'numeric',
+            second: 'numeric',
+            hour12: false
+          }
+        )
+      }
+
+      const bodyWrapper = document.body
+      bodyWrapper.style.fontFamily = 'Arial'
+      bodyWrapper.style.display = 'flex'
+      bodyWrapper.style.justifyContent = 'center'
+
+      const appWrapper = document.querySelector('.wrapper')
+      appWrapper.style.width = '70%'
+
+
+      // title element
+      const title = document.createElement('h1')
+      title.className = 'title'
+      const initialTitleColor = generateColor()
+      title.innerHTML = `${data.challengeTitle} in \
+        <span style='font-size: 60px; color: ${initialTitleColor}'>\
+        ${data.challengeYear}</span>`
+
+      appWrapper.appendChild(title)
+
+      setInterval(() => {
+        document.querySelector('.title span').style.color = generateColor()
+      }, 1000)
+
+
+      // subtitle element
+      const subtitle = document.createElement('h2')
+      subtitle.className = 'subtitle'
+      subtitle.textContent = data.challengeSubtitle
+      subtitle.style.fontWeight = 'normal'
+      subtitle.style.textDecoration = 'underline'
+      subtitle.style.fontSize = '25px'
+
+      appWrapper.appendChild(subtitle)
+
+
+      // time stamp element
+      const timeStamp = document.createElement('span')
+      timeStamp.className = 'timestamp'
+      timeStamp.textContent = getCurrentTime()
+      timeStamp.style.background = generateColor()
+      timeStamp.style.padding = '5px 15px'
+
+      appWrapper.appendChild(timeStamp)
+
+      setInterval(() => {
+        timeStamp.style.background = generateColor()
+        timeStamp.textContent = getCurrentTime()
+      }, 1000)
+
+
+      // challenges board
+      const backgroundColorByStatus = (status) => {
+        switch(status) {
+          case 'done':
+            return 'lightgreen'
+          case 'ongoing':
+            return '#e0e04c'
+          case 'coming':
+            return '#db6060'
+        }
+      }
+
+      const challengesBoard = document.createElement('div')
+      challengesBoard.className = 'challenges-board'
+      challengesBoard.style.marginTop = '20px'
+      appWrapper.appendChild(challengesBoard)
+
+      data.challenges.forEach((challenge) => {
+        const challengeNameText = challenge.name
+        const challengeShortNameText = challengeNameText.split('30 Days Of ')[1]
+        const challengeStatusText = challenge.status
+
+        const challengeRow = document.createElement('div')
+        challengeRow.className = 'challenge-row'
+        challengeRow.style.display = 'flex'
+        challengeRow.style.justifyContent = 'space-between'
+        challengeRow.style.background = backgroundColorByStatus(challengeStatusText.toLowerCase())
+        challengeRow.style.padding = '20px'
+        challengeRow.style.margin = '3px'
+        challengesBoard.appendChild(challengeRow)
+
+        const challengeName = document.createElement('div')
+        challengeName.textContent = challengeNameText
+        challengeRow.appendChild(challengeName)
+
+        const challengeTopics = document.createElement('div')
+        challengeRow.appendChild(challengeTopics)
+
+        const topicsList = document.createElement('details')
+        challengeTopics.appendChild(topicsList)
+
+        const challengeShortName = document.createElement('summary')
+        challengeShortName.textContent = challengeShortNameText
+        topicsList.appendChild(challengeShortName)
+
+        const topicsWrapper = document.createElement('ul')
+        topicsWrapper.style.listStyle = 'none'
+        topicsList.appendChild(topicsWrapper)
+
+        for (const topic of challenge.topics) {
+          const topicItem = document.createElement('li')
+          topicItem.textContent = topic
+          topicsWrapper.appendChild(topicItem)
+        }
+
+        const challengeStatus = document.createElement('div')
+        challengeStatus.textContent = challengeStatusText
+        challengeRow.appendChild(challengeStatus)
+      })
+
+
+      // author section
+      const authorData = data.author
+
+      const authorSection = document.createElement('div')
+      authorSection.className = 'author-section'
+      appWrapper.appendChild(authorSection)
+
+      const authorFullname = document.createElement('div')
+      authorFullname.textContent = `${authorData.firstName} ${authorData.lastName}`
+      authorSection.appendChild(authorFullname)
+
+      const snsSection = document.createElement('div')
+      snsSection.className = 'sns-section'
+      authorSection.appendChild(snsSection)
+
+      authorData.socialLinks.forEach((sns) => {
+        const snsLink = document.createElement('a')
+        snsLink.setAttribute('href', sns.url)
+        snsLink.setAttribute('alt', sns.social)
+        snsLink.setAttribute('target', '_blank')
+        snsLink.style.color = 'black'
+        snsLink.style.margin = '5px'
+        snsLink.style.fontSize = '25px'
+        snsLink.innerHTML = sns.fontawesomeIcon
+        snsSection.appendChild(snsLink)
+      })
+
+      const bioSection = document.createElement('div')
+      bioSection.textContent = authorData.bio
+      authorSection.appendChild(bioSection)
+
+      // more info section
+      const moreInfoSection = document.createElement('div')
+      moreInfoSection.className = 'more-info-section'
+      moreInfoSection.style.display = 'flex'
+      moreInfoSection.style.justifyContent = 'space-between'
+      authorSection.appendChild(moreInfoSection)
+
+      // titles section
+      const titlesSection = document.createElement('div')
+      moreInfoSection.appendChild(titlesSection)
+
+      const titleHeader = document.createElement('h4')
+      titleHeader.textContent = 'Titles'
+      titlesSection.appendChild(titleHeader)
+
+      const titlesList = document.createElement('ul')
+      titlesList.style.listStyle = 'none'
+      titlesSection.appendChild(titlesList)
+
+      authorData.titles.forEach((item) => {
+        const titleItem = document.createElement('li')
+        titleItem.innerHTML = `<span>${item[0]}</span> ${item[1]}`
+        titlesList.appendChild(titleItem)
+      })
+
+      // skills section
+      const skillsSection = document.createElement('div')
+      moreInfoSection.appendChild(skillsSection)
+
+      const skillHeader = document.createElement('h4')
+      skillHeader.textContent = 'Skills'
+      skillsSection.appendChild(skillHeader)
+
+      const skillsList = document.createElement('ul')
+      skillsList.style.listStyle = 'none'
+      skillsSection.appendChild(skillsList)
+
+      authorData.skills.forEach((skill) => {
+        const skillItem = document.createElement('li')
+        skillItem.textContent = skill
+        skillsList.appendChild(skillItem)
+      })
+
+      // qualifications section
+      const qualificationsSection = document.createElement('div')
+      moreInfoSection.appendChild(qualificationsSection)
+
+      const qualificationHeader = document.createElement('h4')
+      qualificationHeader.textContent = 'Qualifications'
+      qualificationsSection.appendChild(qualificationHeader)
+
+      const qualificationsList = document.createElement('ul')
+      qualificationsList.style.listStyle = 'none'
+      qualificationsSection.appendChild(qualificationsList)
+
+      authorData.qualifications.forEach((qualification) => {
+        const qualificationItem = document.createElement('li')
+        qualificationItem.textContent = qualification
+        qualificationsList.appendChild(qualificationItem)
+      })
+
+
+      // footer section
+      const footerSection = document.createElement('footer')
+      appWrapper.appendChild(footerSection)
+
+      const footerHeader = document.createElement('h4')
+      footerHeader.textContent = 'Keywords'
+      footerSection.appendChild(footerHeader)
+
+      const keywordsList = document.createElement('div')
+      footerSection.appendChild(keywordsList)
+
+      data.keywords.forEach((keyword) => {
+        const keywordItem = document.createElement('div')
+        keywordItem.textContent = `#${keyword}`
+        keywordItem.style.background = generateColor()
+        keywordItem.style.padding = '3px 10px'
+        keywordItem.style.borderRadius = '9999px'
+        keywordItem.style.margin = '5px'
+        keywordItem.style.display = 'inline-block'
+        keywordItem.style.fontStyle = 'italic'
+        keywordsList.appendChild(keywordItem)
+      })
+    </script>
+  </body>
+
+</html>
